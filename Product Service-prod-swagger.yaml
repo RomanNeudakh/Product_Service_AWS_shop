@@ -1,0 +1,144 @@
+openapi: 3.0.1
+info:
+  description: "This service serves products."
+  version: 1.0.0
+  title: "Product Service"
+servers: 
+  - url: "https://4up7jlsew1.execute-api.eu-west-1.amazonaws.com/prod"
+paths:
+  /products:
+    get:
+      summary: "Get list of products"
+      description: "Retrieves a list of products."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "2"
+                    name:
+                      type: string
+                      example: "Product Name"
+                    price:
+                      type: number
+                      example: 120
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+  /products/{id}:
+    get:
+      summary: "Get product by ID"
+      description: "Retrieves details of a product by its ID."
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID of the product to retrieve"
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: "product id 1"
+                  price:
+                    type: number
+                    example: 100
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+        '400':
+          description: "Invalid product ID"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid product ID"
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+        '404':
+          description: "Product not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Product not found"
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
