@@ -15,3 +15,11 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk destroy -all`       delete deployed project from AWS environment
 
 Enjoy!
+
+In order to run unit tests, install libraries from requirements-dev.txt
+
+```pip install -r requirements-dev.txt```
+
+Then run pytest in the root directory:
+
+```pytest .```
