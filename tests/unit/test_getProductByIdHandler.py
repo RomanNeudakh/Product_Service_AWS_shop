@@ -18,7 +18,7 @@ def test_valid_product_id():
     assert response["headers"]["Content-Type"] == "application/json"
     product = json.loads(response["body"])
     assert product["id"] == 1
-    assert product["name"] == "product id 1"
+    assert product["title"] == "product id 1"
     assert product["price"] == 100
 
 def test_invalid_product_id():

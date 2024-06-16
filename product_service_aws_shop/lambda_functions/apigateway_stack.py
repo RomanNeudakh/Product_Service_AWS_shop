@@ -12,7 +12,11 @@ class ApiGatewayStack(Stack):
             self, 
             "ProductServiceApi",
             rest_api_name="Product Service",
-            description="This service serves products."
+            description="This service serves products.",
+            default_cors_preflight_options={
+                "allow_origins": apigateway.Cors.ALL_ORIGINS,
+                "allow_methods": apigateway.Cors.ALL_METHODS
+            }
         )
 
         get_products_list_integration = apigateway.LambdaIntegration(get_products_list_lambda)
