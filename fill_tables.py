@@ -11,7 +11,7 @@ products_table = dynamodb.Table('Product_Cross_Check_table')
 stocks_table = dynamodb.Table('Stock_Cross_Check_table')
 products = [
     {
-        'product_id': str(uuid4()),
+        'id': str(uuid4()),
         'title': fake.word(),
         'description': fake.sentence(),
         'price': fake.random_int(min=10, max=100)
@@ -21,7 +21,7 @@ products = [
 
 stocks = [
     {
-        'id': product['product_id'],
+        'product_id': product['id'],
         'count': fake.random_int(min=1, max=50)
     }
     for product in products

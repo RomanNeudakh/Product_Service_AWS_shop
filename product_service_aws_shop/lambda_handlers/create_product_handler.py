@@ -1,9 +1,11 @@
+from decimal import Decimal
 import json
 import logging
 import os
+import uuid
 import boto3
 
-def getProductsListHandler(event, context):
+def createProductHandler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
     try:
@@ -13,20 +15,30 @@ def getProductsListHandler(event, context):
         if not stock_table_name or not product_table_name:
             raise ValueError("Environment variables for table names are not set.")
         stock_table = dynamodb.Table(stock_table_name)
-        response_stock = stock_table.scan()
-        stocks = response_stock.get('Items', [])
         product_table = dynamodb.Table(product_table_name)
-        response_products = product_table.scan()
-        products = response_products.get('Items', [])
-        for product in products:
-            if 'price' in product:
-                product['price'] = str(product['price'])
-            for stock in stocks:
-                if product['id'] == stock['product_id']:
-                    product['count'] = str(stock['count'])
+        body = json.loads(event['body'])
+        product_id = str(uuid.uuid4())
+        title = body['title']
+        description = body.get('description', '')
+        price = body['price']
+        product = {
+            'id': product_id,
+            'title': title,
+            'description': description,
+            'price': Decimal(str(price))
+        }
+        product_table.put_item(Item=product)
+        logger.info(f"Product created: {product}")
+        count = body['count']
+        stock = {
+            'product_id': product_id,
+            'count': Decimal(str(count))
+        }
+        stock_table.put_item(Item=stock) 
+        logger.info(f"Product was added: {product}")
         return {
             "statusCode": 200,
-            "body": json.dumps(products),
+            "body": 'New product was added',
             "headers": {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Methods": "GET",
@@ -37,7 +49,7 @@ def getProductsListHandler(event, context):
         logger.error(f"Error: {str(e)}")
         return {
             "statusCode": 500,
-            "body": json.dumps({"message": "Internal server error"}),
+            "body": json.dumps({"message": f"Internal server error: {str(e)}"}),
             "headers": {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Methods": "GET",
