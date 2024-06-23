@@ -21,13 +21,11 @@ class ApiGatewayStack(Stack):
         )
 
         create_product_integration = apigateway.LambdaIntegration(create_product_lambda)
-        create_product_resource = api.root.add_resource("product")
+        create_product_resource = api.root.add_resource("products")
         create_product_resource.add_method("POST", create_product_integration)
-
         get_products_list_integration = apigateway.LambdaIntegration(get_products_list_lambda)
-        products_resource = api.root.add_resource("products")
-        products_resource.add_method("GET", get_products_list_integration)
+        create_product_resource.add_method("GET", get_products_list_integration)
 
         get_products_by_id_integration = apigateway.LambdaIntegration(get_products_by_id_lambda)
-        product_resource = products_resource.add_resource("{id}")
+        product_resource = create_product_resource.add_resource("{id}")
         product_resource.add_method("GET", get_products_by_id_integration)

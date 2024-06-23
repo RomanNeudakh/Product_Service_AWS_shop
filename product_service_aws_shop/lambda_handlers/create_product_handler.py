@@ -8,6 +8,8 @@ import boto3
 def createProductHandler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
+    logger.info(f"Received event: {json.dumps(event)}")
+    logger.info(f"Context: {context}")
     try:
         dynamodb = boto3.resource('dynamodb', region_name=os.getenv('Region_name'))
         stock_table_name = os.getenv('Stock_table_name')
@@ -41,7 +43,7 @@ def createProductHandler(event, context):
             "body": 'New product was added',
             "headers": {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Methods": "POST",
                 "Access-Control-Allow-Origin": "*"
             }
         }
@@ -52,7 +54,7 @@ def createProductHandler(event, context):
             "body": json.dumps({"message": f"Internal server error: {str(e)}"}),
             "headers": {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Methods": "POST",
                 "Access-Control-Allow-Origin": "*"
             }
         }

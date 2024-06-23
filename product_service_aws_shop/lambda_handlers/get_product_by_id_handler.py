@@ -6,6 +6,8 @@ import boto3
 def getProductByIdHandler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
+    logger.info(f"Received event: {json.dumps(event)}")
+    logger.info(f"Context: {context}")
     try:
         dynamodb = boto3.resource('dynamodb', region_name=os.getenv('Region_name'))
         stock_table_name = os.getenv('Stock_table_name')
