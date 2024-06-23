@@ -33,8 +33,7 @@ class ApiGatewayStack(Stack):
                     "description": apigateway.JsonSchema(type=apigateway.JsonSchemaType.STRING),
                     "title": apigateway.JsonSchema(type=apigateway.JsonSchemaType.STRING)
                 },
-                required=["count", "price", "description", "title"],
-                additionalProperties=False
+                required=["count", "price", "description", "title"]
             )
         )
         request_validator = apigateway.RequestValidator(
