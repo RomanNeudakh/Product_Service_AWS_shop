@@ -1,0 +1,5 @@
+id,product_name,description,price,count
+p52ebc54-a6c0-433e-bff9-b05b3544a3ef,product_name_from_CSV_file1,description_from_CSV_file1,1,1
+y52ebc54-a6c0-433e-bff9-b05b3544a3ef,product_name_from_CSV_file2,description_from_CSV_file2,1,1
+w52ebc54-a6c0-433e-bff9-b05b3544a3ef,product_name_from_CSV_file3,description_from_CSV_file3,1,1
+c52ebc54-a6c0-433e-bff9-b05b3544a3ef,product_name_from_CSV_file4,description_from_CSV_file4,1,1

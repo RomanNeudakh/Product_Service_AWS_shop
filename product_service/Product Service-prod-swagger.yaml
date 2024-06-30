@@ -1,0 +1,180 @@
+openapi: 3.0.1
+info:
+  description: "This service serves products."
+  version: 1.0.0
+  title: "Product Service"
+servers: 
+  - url: "https://4up7jlsew1.execute-api.eu-west-1.amazonaws.com/prod"
+    description: "Production server"
+paths:
+  /products:
+    get:
+      summary: "Get list of products"
+      description: "Retrieves a list of products."
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "2"
+                    title:
+                      type: string
+                      example: "Product title"
+                    description:
+                      type: string
+                      example: "Product description"
+                    price:
+                      type: number
+                      example: 120
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+    post:
+      summary: "Create a new product"
+      description: "Creates a new product and its stock."
+      requestBody:
+        description: "Product object"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "New Product title"
+                description:
+                  type: string
+                  example: "New product description"
+                price:
+                  type: number
+                  example: 99.99
+                count:
+                  type: number
+                  example: 10
+              required:
+                - title
+                - price
+                - count
+                - description
+      responses:
+        '200':
+          description: "Product created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "New product was added: {product details}"
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "POST"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+  /products/{id}:
+    get:
+      summary: "Get product by ID"
+      description: "Retrieves details of a product by its ID."
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID of the product to retrieve"
+          schema:
+            type: string
+            example: 1
+      responses:
+        '200':
+          description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "44890070-20c2-475a-85d5-1c557b50bdb1"
+                  title:
+                    type: string
+                    example: "product id 1"
+                  price:
+                    type: number
+                    example: 100
+                  count:
+                    type: number
+                    example: 10
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
+        '404':
+          description: "Product not found"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Product not found"
+          headers:
+            Content-Type:
+              description: "Content type of the response"
+              schema:
+                type: string
+                example: "application/json"
+            Access-Control-Allow-Methods:
+              description: "Allowed methods"
+              schema:
+                type: string
+                example: "GET"
+            Access-Control-Allow-Origin:
+              description: "Allowed origin"
+              schema:
+                type: string
+                example: "*"
