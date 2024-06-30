@@ -7,7 +7,7 @@ class MissingQueryParameterError(Exception):
 def importFileHandler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    s3_client = boto3.client('s3', region_name='eu-west-1')
+    s3_client = boto3.client('s3')
     bucket_name = os.getenv('BUCKET_NAME')
     try:
         file_name = event['queryStringParameters'].get('name')
@@ -17,7 +17,8 @@ def importFileHandler(event, context):
             raise MissingQueryParameterError('Missing "name" query parameter')
         signed_url = s3_client.generate_presigned_url(
             'put_object',
-            Params={'Bucket': bucket_name, 'Key': key}
+            Params={'Bucket': bucket_name, 'Key': key},
+            ExpiresIn=3600
         )
         logger.info(f"signed_url was created: {signed_url}")
         return {

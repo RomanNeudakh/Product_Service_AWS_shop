@@ -6,13 +6,8 @@ from aws_cdk import (
 from constructs import Construct
 
 class ImportProducts(Stack):
-    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, bucket_name: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
-        bucket = s3.Bucket(self, 
-            "CSVImportBucket",
-            bucket_name="import-csv-bucket-task5",
-        )
-        
         self.lambda_function = lambda_.Function(
             self,
             'ImportProducts',
@@ -20,8 +15,8 @@ class ImportProducts(Stack):
             code=lambda_.Code.from_asset('import_service_aws_shop/lambda_handlers/'),
             handler='import_file_handler.importFileHandler',
                 environment={
-                'BUCKET_NAME': bucket.bucket_name
+                'BUCKET_NAME': bucket_name
             }
         )
+        bucket = s3.Bucket.from_bucket_name(self, "ImportBucket", bucket_name)
         bucket.grant_read_write(self.lambda_function)
-        bucket.grant_put(self.lambda_function)
