@@ -7,9 +7,10 @@ class MissingQueryParameterError(Exception):
 def importFileHandler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    s3_client = boto3.client('s3')
-    bucket_name = os.getenv('BUCKET_NAME')
+
     try:
+        s3_client = boto3.client('s3')
+        bucket_name = os.getenv('BUCKET_NAME')
         file_name = event['queryStringParameters'].get('name')
         key = f"uploaded/{file_name}"
         logger.info(f"request to create a signed_url in bucket: {bucket_name} with key {key}")
