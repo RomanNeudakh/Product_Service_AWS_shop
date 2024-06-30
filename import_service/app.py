@@ -1,11 +1,6 @@
-#!/usr/bin/env python3
-
 import aws_cdk as cdk
-
-from import_service_aws_shop.import_service_stack import ImportServiceStack
-
+from import_service_aws_shop.lambda_functions.deployment_stack import DeploymentStack
 
 app = cdk.App()
-ImportServiceStack(app, "ImportServiceStack")
-
+DeploymentStack(app, "ImportServiceAwsShopStackCrosscheck")
 app.synth()
