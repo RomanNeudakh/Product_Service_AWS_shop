@@ -1,15 +1,16 @@
 import json
 import logging
+import os
 import boto3
 import csv
 from io import StringIO
-
-s3_client = boto3.client('s3')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
-
+s3_client = boto3.client('s3')
+sqs = boto3.client('sqs')
 def parseFileHandler(event, context):
-    logger.info(f"Received event: {json.dumps(event)}")
+    queue_name = os.getenv('QUEUE_NAME')
+    queue_url = sqs.get_queue_url(QueueName=queue_name)['QueueUrl']
     bucket_name = event['Records'][0]['s3']['bucket']['name']
     object_key = event['Records'][0]['s3']['object']['key']
     if not object_key.startswith('uploaded/'):
@@ -19,6 +20,10 @@ def parseFileHandler(event, context):
     file_content = s3_response['Body'].read().decode('utf-8')
     csv_reader = csv.DictReader(StringIO(file_content))
     for row in csv_reader:
+        sqs.send_message(
+            QueueUrl=queue_url,
+            MessageBody=json.dumps(row)
+        )
         logger.info(f"Parsed row: {json.dumps(row)}")
     new_object_key = object_key.replace('uploaded/', 'parsed/', 1)
     s3_client.copy_object(

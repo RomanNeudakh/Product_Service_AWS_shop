@@ -1,5 +1,7 @@
-id,product_name,description,price,count
-c52ebc54-a6c0-433e-bff9-b05b3544a3ef,Product_From_CSV_file,Product_From_CSV_file,1,1
-v52ebc54-a6c0-433e-bff9-b05b3544a3ef,Product_From_CSV_file,Product_From_CSV_file,1,1
-b52ebc54-a6c0-433e-bff9-b05b3544a3ef,Product_From_CSV_file,Product_From_CSV_file,1,1
-n52ebc54-a6c0-433e-bff9-b05b3544a3ef,Product_From_CSV_file,Product_From_CSV_file,1,1
+title,description,price,count
+Product_file1,Product_file1,1,1
+Product_file2,Product_file2,1,1
+Product_file3,Product_file3,1,1
+Product_file4,Product_file4,1,1
+Product_file5,Product_file5,1,1
+Product_file6,Product_file6,1,1
