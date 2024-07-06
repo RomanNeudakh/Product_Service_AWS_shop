@@ -9,8 +9,7 @@ class DeploymentStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
         bucket_name= 'import-csv-bucket-task5'
-        queue_name = 'catalogItemsQueueCrossCheck'
-        ParseProducts(self, 'ParseProductsStackCrosscheck', bucket_name, queue_name)
+        ParseProducts(self, 'ParseProductsStackCrosscheck', bucket_name)
         import_products_stack = ImportProducts(self, 'ImportProductsStackCrosscheck', bucket_name)
         ApiGatewayStack(
             self,

@@ -3,9 +3,10 @@ import logging
 import os
 import boto3
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 def getProductsListHandler(event, context):
-    logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
     logger.info(f"Received event: {json.dumps(event)}")
     logger.info(f"Context: {context}")
     try:

@@ -4,12 +4,13 @@ import uuid
 import boto3
 import logging
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+dynamodb = boto3.client('dynamodb')
+sns = boto3.client('sns')
+
 def catalogBatchProcessHandler(event, context):
-    logger = logging.getLogger()
-    logger.setLevel(logging.INFO)
-    try: 
-        dynamodb = boto3.client('dynamodb')
-        sns = boto3.client('sns')
+    try:
         product_table_name = os.environ['PRODUCT_TABLE']
         stock_table_name = os.environ['STOCK_TABLE']
         sns_topic_arn = os.environ['SNS_TOPIC_ARN']

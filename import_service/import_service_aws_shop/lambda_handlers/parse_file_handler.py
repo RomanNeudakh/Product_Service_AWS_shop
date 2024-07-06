@@ -4,13 +4,14 @@ import os
 import boto3
 import csv
 from io import StringIO
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 s3_client = boto3.client('s3')
 sqs = boto3.client('sqs')
+
 def parseFileHandler(event, context):
-    queue_name = os.getenv('QUEUE_NAME')
-    queue_url = sqs.get_queue_url(QueueName=queue_name)['QueueUrl']
+    queue_url = os.getenv('QUEUE_URL')
     bucket_name = event['Records'][0]['s3']['bucket']['name']
     object_key = event['Records'][0]['s3']['object']['key']
     if not object_key.startswith('uploaded/'):
@@ -32,4 +33,3 @@ def parseFileHandler(event, context):
         Key=new_object_key
     )
     s3_client.delete_object(Bucket=bucket_name, Key=object_key)
-    logger.info(f"File moved to {new_object_key}")

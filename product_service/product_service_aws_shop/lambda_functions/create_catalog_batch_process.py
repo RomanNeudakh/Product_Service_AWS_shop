@@ -1,4 +1,5 @@
 from aws_cdk import (
+    CfnOutput,
     Stack,
     aws_lambda as lambda_,
     aws_sqs as sqs,
@@ -40,5 +41,8 @@ class CreateCatalogBatchProcess(Stack):
         create_product_topic.grant_publish(catalog_batch_process)
         catalog_items_queue.grant_consume_messages(catalog_batch_process)
         catalog_batch_process.add_event_source(
-            event_sources.SqsEventSource(catalog_items_queue, batch_size=5)
+            event_sources.SqsEventSource(catalog_items_queue, batch_size=5, max_batching_window=Duration.seconds(10))
         )
+        CfnOutput(self, 'CatalogItemsQueueArnOutput',
+                  value=catalog_items_queue.queue_arn,
+                  export_name='QueueArn')
