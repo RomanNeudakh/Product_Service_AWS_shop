@@ -70,17 +70,21 @@ def catalogBatchProcessHandler(event, context):
                     }
                 ]
             )
-            product_item['count'] = count
+            product_item['count'] = {'N': str(count)}
             products_for_sns.append(product_item)
         if products_for_sns:
-            sns_report = {
-                'message': 'Products from csv added',
-                'products': products_for_sns
-            }
+            formatted_products = "\n\n".join(
+                f"Product ID: {product['id']}\n"
+                f"Title: {product['title']}\n"
+                f"Description: {product['description']}\n"
+                f"Price: {product['price']}\n"
+                f"Count: {product['count']}"
+                for product in products_for_sns
+            )
+            sns_report = f"Products from csv were added:\n\n{formatted_products}"
             sns.publish(
-                TopicArn=sns_topic_arn,
-                Message=json.dumps({'default': json.dumps(sns_report)}),
-                MessageStructure='json'
+                TopicArn=os.getenv('SNS_TOPIC_ARN'),
+                Message=sns_report
             )
         return {'statusCode': 200, 'body': 'Batch processed successfully'}
     except Exception as e:
