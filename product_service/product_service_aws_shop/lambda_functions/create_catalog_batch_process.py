@@ -15,6 +15,7 @@ class CreateCatalogBatchProcess(Stack):
     def __init__(self, scope: Construct, id: str, stock_table_name: str, product_table_name: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
         user_imail = 'neudakhroman@gmail.com'
+        my_imail = 'vikbtest71@gmail.com'
         stock_table = dynamodb_.Table.from_table_name(self, 'StockTable', stock_table_name)
         product_table = dynamodb_.Table.from_table_name(self, 'ProductTable', product_table_name)
         catalog_items_queue = sqs.Queue(
@@ -24,6 +25,16 @@ class CreateCatalogBatchProcess(Stack):
             visibility_timeout=Duration.seconds(300)
         )
         create_product_topic = sns.Topic(self, 'createProductTopic')
+        create_product_topic.add_subscription(
+            subs.EmailSubscription(
+                my_imail,
+                filter_policy={
+                    'title': sns.SubscriptionFilter.string_filter(
+                        allowlist=['roman']
+                    )
+                }
+            )
+        )
         create_product_topic.add_subscription(subs.EmailSubscription(user_imail))
         catalog_batch_process = lambda_.Function(
             self, 'catalogBatchProcess',

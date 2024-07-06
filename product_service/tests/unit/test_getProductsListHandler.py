@@ -34,12 +34,12 @@ def setup_products():
     )
 
 
-    table.put_item(Item={"id": "1","description": "test desc", "title": "product id 1", "price": "100"})
-    table.put_item(Item={"id": "2","description": "test desc", "title": "product id 2", "price": "110"})
-    table.put_item(Item={"id": "3","description": "test desc", "title": "product id 3", "price": "120"})
-    table.put_item(Item={"id": "4","description": "test desc", "title": "product id 4", "price": "130"})
-    table.put_item(Item={"id": "5","description": "test desc", "title": "product id 5", "price": "140"})
-    table.put_item(Item={"id": "6","description": "test desc", "title": "product id 6", "price": "150"})
+    table.put_item(Item={'id': '1','description': 'test desc', 'title': 'product id 1', 'price': '100'})
+    table.put_item(Item={'id': '2','description': 'test desc', 'title': 'product id 2', 'price': '110'})
+    table.put_item(Item={'id': '3','description': 'test desc', 'title': 'product id 3', 'price': '120'})
+    table.put_item(Item={'id': '4','description': 'test desc', 'title': 'product id 4', 'price': '130'})
+    table.put_item(Item={'id': '5','description': 'test desc', 'title': 'product id 5', 'price': '140'})
+    table.put_item(Item={'id': '6','description': 'test desc', 'title': 'product id 6', 'price': '150'})
 
     return table
 
@@ -67,12 +67,12 @@ def setup_stock():
         }
     )
 
-    table.put_item(Item={"product_id": "1", "count": 100})
-    table.put_item(Item={"product_id": "2", "count": 110})
-    table.put_item(Item={"product_id": "3", "count": 120})
-    table.put_item(Item={"product_id": "4", "count": 130})
-    table.put_item(Item={"product_id": "5", "count": 140})
-    table.put_item(Item={"product_id": "6", "count": 150})
+    table.put_item(Item={'product_id': '1', 'count': 100})
+    table.put_item(Item={'product_id': '2', 'count': 110})
+    table.put_item(Item={'product_id': '3', 'count': 120})
+    table.put_item(Item={'product_id': '4', 'count': 130})
+    table.put_item(Item={'product_id': '5', 'count': 140})
+    table.put_item(Item={'product_id': '6', 'count': 150})
 
     return table
 
@@ -85,22 +85,22 @@ def test_getProductsListHandler():
     context = {}
     response = getProductsListHandler(event, context)
     
-    assert response["statusCode"] == 200
-    assert response["headers"]["Content-Type"] == "application/json"
-    assert response["headers"]["Access-Control-Allow-Methods"] == "GET"
-    assert response["headers"]["Access-Control-Allow-Origin"] == "*"
+    assert response['statusCode'] == 200
+    assert response['headers']['Content-Type'] == 'application/json'
+    assert response['headers']['Access-Control-Allow-Methods'] == 'GET'
+    assert response['headers']['Access-Control-Allow-Origin'] == '*'
     
-    products = json.loads(response["body"])
+    products = json.loads(response['body'])
     assert isinstance(products, list)
     assert len(products) == 6
     
     expected_products = [
-        {"id": "1", "description": "test desc", "title": "product id 1", "price": '100', "count": "100"},
-        {"id": "2", "description": "test desc", "title": "product id 2", "price": '110', "count": "110"},
-        {"id": "3", "description": "test desc", "title": "product id 3", "price": '120', "count": "120"},
-        {"id": "4", "description": "test desc", "title": "product id 4", "price": '130', "count": "130"},
-        {"id": "5", "description": "test desc", "title": "product id 5", "price": '140', "count": "140"},
-        {"id": "6", "description": "test desc", "title": "product id 6", "price": '150', "count": "150"},
+        {'id': '1', 'description': 'test desc', 'title': 'product id 1', 'price': '100', 'count': '100'},
+        {'id': '2', 'description': 'test desc', 'title': 'product id 2', 'price': '110', 'count': '110'},
+        {'id': '3', 'description': 'test desc', 'title': 'product id 3', 'price': '120', 'count': '120'},
+        {'id': '4', 'description': 'test desc', 'title': 'product id 4', 'price': '130', 'count': '130'},
+        {'id': '5', 'description': 'test desc', 'title': 'product id 5', 'price': '140', 'count': '140'},
+        {'id': '6', 'description': 'test desc', 'title': 'product id 6', 'price': '150', 'count': '150'},
     ]
     
     assert products == expected_products
