@@ -42,7 +42,7 @@ def catalogBatchProcessHandler(event, context):
                 logger.info(f"Skipping record due to invalid count: {body}")
                 continue
             if not description:
-                logger.info(f"Skipping record due to invalid count: {body}")
+                logger.info(f"Skipping record due to invalid description: {body}")
                 continue
             product_item = {
                 'id': {'S': product_id},
