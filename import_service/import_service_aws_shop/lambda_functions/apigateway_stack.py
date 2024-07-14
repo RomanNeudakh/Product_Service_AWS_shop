@@ -20,6 +20,25 @@ class ApiGatewayStack(Stack):
                 allow_headers=["*"]
             )
         )
+        api.add_gateway_response(
+            'UnauthorizedResponse',
+            type=apigateway.ResponseType.UNAUTHORIZED,
+            response_headers={
+                "Access-Control-Allow-Origin": "'*'",
+                "Access-Control-Allow-Headers": "'*'",
+                "Access-Control-Allow-Methods": "'OPTIONS,POST,GET'"
+            }
+        )
+        api.add_gateway_response(
+            'ForbiddenResponse',
+            type=apigateway.ResponseType.ACCESS_DENIED,
+            response_headers={
+                "Access-Control-Allow-Origin": "'*'",
+                "Access-Control-Allow-Headers": "'*'",
+                "Access-Control-Allow-Methods": "'OPTIONS,POST,GET'"
+            }
+        )
+
         basic_authorizer_name = Fn.import_value('BasicAuthorizerName')
         authorizer = apigateway.TokenAuthorizer(
             self, 'BasicAuthorizer',
