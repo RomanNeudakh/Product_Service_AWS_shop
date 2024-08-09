@@ -1,0 +1,12 @@
+# Exclude directories
+cdk
+dist
+node_modules
+test
+.git
+# Exclude files
+.env
+Dockerfile
+.dockerignore
+rds-insert-data.sql
+README.md
